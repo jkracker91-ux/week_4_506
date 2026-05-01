@@ -1,0 +1,25 @@
+
+> week4-debug-assignment@1.0.0 harness:race
+> node harness/race-trace.js
+
+[harness] {"t":"0.3ms","event":"reset:start"}
+[race-trace] {"t":"17.9ms","event":"state:reset","pendingDraftSaves":0,"pendingDraftCommitCount":0,"currentDraft":"","publishedDraft":""}
+[harness] {"t":"27.1ms","event":"reset:done"}
+[harness] {"t":"27.4ms","event":"save-initial:start","content":"draft A"}
+[race-trace] {"t":"39.8ms","event":"draft:received","pendingDraftSaves":1,"pendingDraftCommitCount":1,"currentDraft":"","publishedDraft":"","saveId":1,"incomingContent":"draft A"}
+[race-trace] {"t":"341.0ms","event":"draft:commit:before","pendingDraftSaves":1,"pendingDraftCommitCount":1,"currentDraft":"","publishedDraft":"","saveId":1,"incomingContent":"draft A"}
+[race-trace] {"t":"341.3ms","event":"draft:commit:after","pendingDraftSaves":0,"pendingDraftCommitCount":0,"currentDraft":"draft A","publishedDraft":"","saveId":1,"saved":"draft A"}
+[harness] {"t":"343.6ms","event":"save-initial:committed","content":"draft A"}
+[harness] {"t":"343.9ms","event":"save-latest:start-without-awaiting","content":"draft B"}
+[harness] {"t":"344.9ms","event":"publish:start-while-save-in-flight"}
+[race-trace] {"t":"348.8ms","event":"draft:received","pendingDraftSaves":1,"pendingDraftCommitCount":1,"currentDraft":"draft A","publishedDraft":"","saveId":2,"incomingContent":"draft B"}
+[race-trace] {"t":"349.9ms","event":"publish:received","pendingDraftSaves":1,"pendingDraftCommitCount":1,"currentDraft":"draft A","publishedDraft":"","publishId":3,"pendingCommitsAtReceive":1,"snapshot":"draft A"}
+[race-trace] {"t":"649.0ms","event":"draft:commit:before","pendingDraftSaves":1,"pendingDraftCommitCount":1,"currentDraft":"draft A","publishedDraft":"","saveId":2,"incomingContent":"draft B"}
+[race-trace] {"t":"649.4ms","event":"draft:commit:after","pendingDraftSaves":0,"pendingDraftCommitCount":0,"currentDraft":"draft B","publishedDraft":"","saveId":2,"saved":"draft B"}
+[race-trace] {"t":"650.6ms","event":"publish:after-wait","pendingDraftSaves":0,"pendingDraftCommitCount":0,"currentDraft":"draft B","publishedDraft":"","publishId":3,"snapshot":"draft B"}
+[race-trace] {"t":"650.8ms","event":"publish:committed","pendingDraftSaves":0,"pendingDraftCommitCount":0,"currentDraft":"draft B","publishedDraft":"draft B","publishId":3,"published":"draft B"}
+[harness] {"t":"652.8ms","event":"save-latest:response","saved":"draft B"}
+[harness] {"t":"653.5ms","event":"publish:response","published":"draft B"}
+[harness] {"t":"665.3ms","event":"final-state","current":"draft B","published":"draft B","expectedPublished":"draft B","raceObserved":false}
+
+Race not reproduced: publish reflected the latest save.
